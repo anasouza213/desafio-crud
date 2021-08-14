@@ -30,7 +30,7 @@ public class PhoneController extends BaseController {
         }
     }
 
-    @GetMapping("/active")
+    @GetMapping("/ativo")
     public ResponseEntity<?> findAllActive(){
         try {
             List<PhoneModel> response =  _phoneRepository.findAllActive();

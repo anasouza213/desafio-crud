@@ -9,9 +9,9 @@ public interface IPhoneRepository  extends PagingAndSortingRepository<PhoneModel
 
     List<PhoneModel> findAll();
 
-    @Query(value = "SELECT * FROM phone WHERE active = true", nativeQuery = true)
+    @Query(value = "SELECT * FROM phone WHERE ativo = true", nativeQuery = true)
     List<PhoneModel> findAllActive();
 
-    @Query(value = "UPDATE phone SET active = false WHERE id = ?1", nativeQuery = true)
+    @Query(value = "UPDATE phone SET ativo = false WHERE id = ?1", nativeQuery = true)
     Boolean logicDelete(Long id);
 }

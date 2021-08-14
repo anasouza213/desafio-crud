@@ -12,12 +12,12 @@ public interface IUserRepository extends PagingAndSortingRepository<UserModel, L
 
     List<UserModel> findAll();
 
-    @Query(value = "SELECT * FROM user WHERE active = true", nativeQuery = true)
+    @Query(value = "SELECT * FROM users WHERE ativo = true", nativeQuery = true)
     List<UserModel> findAllActive();
 
-    @Query(value = "UPDATE user SET active = false WHERE id = ?1", nativeQuery = true)
+    @Query(value = "UPDATE users SET ativo = false WHERE id = ?1", nativeQuery = true)
     Boolean logicDelete(Long id);
 
-    @Query(value = "SELECT * FROM user WHERE active =  true AND cpf = ?1", nativeQuery = true)
+    @Query(value = "SELECT * FROM users WHERE ativo =  true AND cpf = ?1", nativeQuery = true)
     UserModel findByCpf(String cpf);
 }

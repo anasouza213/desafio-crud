@@ -10,9 +10,9 @@ public interface IEmailRepository extends PagingAndSortingRepository<EmailModel,
 
     List<EmailModel> findAll();
 
-    @Query(value = "SELECT * FROM email WHERE active = true", nativeQuery = true)
+    @Query(value = "SELECT * FROM email WHERE ativo = true", nativeQuery = true)
     List<EmailModel> findAllActive();
 
-    @Query(value = "UPDATE email SET active = false WHERE id = ?1", nativeQuery = true)
+    @Query(value = "UPDATE email SET ativo = false WHERE id = ?1", nativeQuery = true)
     Boolean logicDelete(Long id);
 }

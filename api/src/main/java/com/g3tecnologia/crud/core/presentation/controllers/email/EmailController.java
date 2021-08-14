@@ -30,7 +30,7 @@ public class EmailController extends BaseController {
         }
     }
 
-    @GetMapping("/active")
+    @GetMapping("/ativo")
     public ResponseEntity<?> findAllActive(){
         try {
             List<EmailModel> response = _emailRepository.findAllActive();

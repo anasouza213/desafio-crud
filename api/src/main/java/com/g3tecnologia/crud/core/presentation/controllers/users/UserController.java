@@ -4,7 +4,9 @@ import com.g3tecnologia.crud.core.domain.business.users.UserModel;
 import com.g3tecnologia.crud.core.infrastructure.repositories.users.IUserRepository;
 import com.g3tecnologia.crud.core.presentation.controllers.base.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,12 +15,19 @@ import java.util.List;
 @RequestMapping(value = "/api/users")
 public class UserController extends BaseController {
 
+    public MessageSource _messageSource;
+
     @Autowired
     IUserRepository _userRepository;
 
-    public UserController (IUserRepository userRepository){
+    @Autowired(required = true)
+    PasswordEncoder passwordEncoder;
+
+    public UserController (IUserRepository userRepository, MessageSource messageSource){
         this._userRepository = userRepository;
+        this._messageSource =  messageSource;
     }
+
 
     @GetMapping("/")
     public ResponseEntity<?> findAll(){
@@ -30,7 +39,7 @@ public class UserController extends BaseController {
        }
     }
 
-    @GetMapping("/active")
+    @GetMapping("/ativo")
     public ResponseEntity<?> findAllActive(){
         try {
             List<UserModel> response = _userRepository.findAllActive();
@@ -75,6 +84,27 @@ public class UserController extends BaseController {
         try {
             Boolean response = _userRepository.logicDelete(id);
             return Ok(response);
+        }catch (Exception ex){
+            return BadRequest(ex);
+        }
+    }
+
+    @PostMapping("")
+    public ResponseEntity<?>  save(@RequestBody UserModel user) {
+        try{
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+            _userRepository.save(user);
+            return Ok(user);
+        }catch (Exception ex){
+            return BadRequest(ex);
+        }
+    }
+
+    @PostMapping("pass_encode")
+    public ResponseEntity<?>  pass_encode(@RequestBody UserModel user) {
+        try{
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+            return Ok(user);
         }catch (Exception ex){
             return BadRequest(ex);
         }
